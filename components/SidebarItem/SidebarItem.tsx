@@ -1,9 +1,11 @@
 "use client"
 
 import Link from "next/link";
-import { SidebarItemProps } from "./SidebarItem.types";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+
+import { cn } from "@/lib/utils";
+
+import { SidebarItemProps } from "./SidebarItem.types";
 
 export function SidebarItem(props : SidebarItemProps) {
     const {item} = props
