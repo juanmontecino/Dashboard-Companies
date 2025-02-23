@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { CirclePlus } from "lucide-react";
+
 import { useState } from "react";
 import { FormCreateCustomer } from "../FormCreateCustomer";
 
@@ -33,7 +33,7 @@ export  function HeaderCompanies() {
           </DialogHeader>
 
 
-          <FormCreateCustomer />
+          <FormCreateCustomer setOpenModalCreate={setOpenModalCreate}/>
         </DialogContent>
 
       </Dialog>

@@ -18,6 +18,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { FormCreateCustomerProps } from "./FormCreateCustomer.types"
 import { toast } from "sonner"
+import axios from "axios"
+import { useRouter } from "next/navigation"
 
 
 const formSchema = z.object({
@@ -31,6 +33,7 @@ const formSchema = z.object({
 
 export function FormCreateCustomer(props: FormCreateCustomerProps) {
     const {setOpenModalCreate} = props
+    const router = useRouter()
     const [photoUploaded, setPhotoUploaded] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,9 +51,17 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
     const {isValid} = form.formState
 
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) =>{
-    console.log(values)
-  }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+          await axios.post("/api/company", values); // Añade await
+          toast.success("Company created"); // Usa toast.success para feedback claro
+          router.refresh();
+          setOpenModalCreate(false);
+        } catch(error) {
+          toast.error("Error creating company"); // Usa toast.error
+        }
+      };
+      
 
   return (
     <Form {...form}>
@@ -155,13 +166,16 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
                             {...field} 
                             endpoint="profileImage"
                             onClientUploadComplete={(res) => {
-                                form.setValue("profileImage", res?.[0].url)
-                                toast("Photo uploaded successfully!")
-                                setPhotoUploaded(true)
-                            }}
-                            onUploadError={(error: Error) => {
-                                toast("Error uploading photo!")
-                            }}
+                                if (res && res.length > 0) {
+                                  form.setValue("profileImage", res[0].url); // UploadThing mantiene 'url' en v6
+                                  setPhotoUploaded(true);
+                                  toast.success("Photo uploaded!");
+                                }
+                              }}
+                              onUploadError={(error: Error) => {
+                                toast.error("Upload failed: " + error.message);
+                              }}
+                            
                             />
                         )}
                         </FormControl>
