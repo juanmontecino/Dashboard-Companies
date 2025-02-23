@@ -2,6 +2,9 @@
 import CardSummary from "./components/CardSummary/CardSummary";
 import { BookOpenCheck, UsersRound, Waypoints } from "lucide-react";
 import { LastCustomers } from "./components/LastCustomers";
+import { SalesDistributors } from "./components/SalesDistributors";
+import { TotalSuscribers } from "./components/TotalSuscribers";
+import { ListIntegrations } from "./components/ListIntegrations";
 
 export const dataCardSummary = [
   {
@@ -30,7 +33,7 @@ export const dataCardSummary = [
 export default function Home() {
   return (
     <div>
-     <h2 className="text-2xl mb-4">dashboard</h2>
+     <h2 className="text-2xl mb-4">Dashboard</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20 ">
         {dataCardSummary.map(({icon, total, average, title, tooltipText}) => (
           <CardSummary
@@ -43,10 +46,14 @@ export default function Home() {
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 md:gap-x-10 mt-12">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 md:gap-x-10 mt-8 ">
         <LastCustomers/>
-        <p> Sales Distributors</p>
-      </div>    
+        <SalesDistributors/>
+      </div>
+      <div className="flex-col xl:flex xl:flex-row gap-y-4 md:gap-y-0 mt-12 md:mb-10 justify-center md:gap-x-10" >
+       <TotalSuscribers/>
+        <ListIntegrations/>
+        </div>    
     </div>
   )
 }
