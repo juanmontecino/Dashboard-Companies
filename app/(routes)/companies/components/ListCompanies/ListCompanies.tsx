@@ -25,7 +25,7 @@ export async function ListCompanies() {
   });
 
   return (
-    <div className="">
+    <div>
       <DataTable columns={columns} data={companies} />
     </div>
   );

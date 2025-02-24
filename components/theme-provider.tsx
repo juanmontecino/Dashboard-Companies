@@ -1,11 +1,36 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { useEffect, useState } from "react";
+
+interface ThemeProviderProps {
+  children: React.ReactNode;
+  storageKey?: string;
+}
 
 export function ThemeProvider({
   children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  storageKey = "dashboard-theme",
+}: ThemeProviderProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      storageKey={storageKey}
+    >
+      {children}
+    </NextThemesProvider>
+  );
 }
