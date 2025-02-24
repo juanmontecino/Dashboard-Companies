@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Header } from "./components/Header";
 import { CompanyInformation } from "./components/CompanyInformation";
+import { FooterCompany } from "./components/FooterCompany";
 
 export default async function CompanyIdPage({
   params,
@@ -32,7 +33,7 @@ export default async function CompanyIdPage({
     <div>
       <Header/>
       <CompanyInformation company={company}/>
-      <p>footer</p>
+      <FooterCompany companyId={companyId}/> 
     </div>
   );
 }

@@ -2,6 +2,8 @@ import Image from "next/image";
 import { CompanyInformationProps } from "./CompanyInformation.types";
 import { User } from "lucide-react";
 import { CompanyForm } from "../CompanyForm";
+import { NewContact } from "../NewContact";
+import { ListContact } from "../ListContact";
 
 
 export  function CompanyInformation(props : CompanyInformationProps) {
@@ -21,14 +23,13 @@ export  function CompanyInformation(props : CompanyInformationProps) {
         <div className="flex items-center justify-between gap-x-2" >
           <div className="flex items-center gap-x-2" > 
             <User className="w-5 h-5" />
-            contacts
+            Contacts
           </div>
           <div>
-            new contact
+           <NewContact />
           </div>
         </div>
-
-        <p> list contacts </p>
+        <ListContact company={company} />
       </div>
     </div>
   )

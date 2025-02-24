@@ -43,3 +43,30 @@ export async function PATCH(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { companyId: string } }
+) {
+  try {
+    const { userId } = await getAuth(req);
+
+    const { companyId } = await params;
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const deletedCompany = await db.company.delete({
+      where: {
+        id: companyId,
+      },
+    });
+  
+    return NextResponse.json(deletedCompany);
+  } catch (error) {
+    console.error("[COMPANY_DELETE]" + error);
+     return new NextResponse("Internal error", { status: 500 });
+  }
+}
