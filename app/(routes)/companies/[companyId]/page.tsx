@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+
 import { redirect } from "next/navigation";
+import { Header } from "./components/Header";
+import { CompanyInformation } from "./components/CompanyInformation";
 
 export default async function CompanyIdPage({
   params,
@@ -27,8 +30,8 @@ export default async function CompanyIdPage({
 
   return (
     <div>
-      <p>header</p>
-      <p>{company.name}</p>
+      <Header/>
+      <CompanyInformation company={company}/>
       <p>footer</p>
     </div>
   );

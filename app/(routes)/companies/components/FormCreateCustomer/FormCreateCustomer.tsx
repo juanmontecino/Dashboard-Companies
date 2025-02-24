@@ -58,7 +58,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
           router.refresh();
           setOpenModalCreate(false);
         } catch(error) {
-          toast.error("Error creating company"); // Usa toast.error
+          toast.error("Error creating company" + error); // Usa toast.error
         }
       };
       
@@ -167,7 +167,8 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
                             endpoint="profileImage"
                             onClientUploadComplete={(res) => {
                                 if (res && res.length > 0) {
-                                  form.setValue("profileImage", res[0].url); // UploadThing mantiene 'url' en v6
+                                  const imageUrl = `https://utfs.io/f/${res[0].key}`; // Usa key + CDN
+                                  form.setValue("profileImage", imageUrl);
                                   setPhotoUploaded(true);
                                   toast.success("Photo uploaded!");
                                 }
