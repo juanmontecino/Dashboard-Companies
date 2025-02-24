@@ -1,29 +1,32 @@
-import { redirect } from "next/navigation"
-import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
 export async function ListCompanies() {
-  const { userId } = await auth()
+  // 1. Obtener userId de forma segura
+  const authData = await auth();
+  const userId = authData.userId;
 
+  // 2. Redirigir si no hay usuario autenticado
   if (!userId) {
-    redirect("/")
+    redirect("/");
   }
 
+  // 3. Consulta con validación de tipos
   const companies = await db.company.findMany({
     where: {
-      userId
+      userId: { equals: userId } // Formato compatible con Prisma
     },
     orderBy: {
       createdAt: "desc"
     }
-  })
+  });
 
-  console.log(companies)
   return (
     <div className="">
-        <DataTable columns={columns} data={companies} />
+      <DataTable columns={columns} data={companies} />
     </div>
-  )
+  );
 }

@@ -1,17 +1,23 @@
-import { authMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
+// 1. Define tus rutas públicas
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/api/uploadthing(.*)", // Usa regex para rutas dinámicas
+]);
 
-export default authMiddleware(
-  {
-    publicRoutes: ["/api/uploadthing"],
+// 2. Configura el middleware
+export default clerkMiddleware((auth, req) => {
+  if (!isPublicRoute(req)) {
+    auth(); // Protege todas las rutas no públicas
   }
-);
+});
 
+// 3. Configuración de Next.js
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/((?!.*\\..*|_next).*)", // Excluye archivos estáticos y rutas Next.js
+    "/", 
+    "/(api|trpc)(.*)" // Incluye todas las API routes
   ],
 };
