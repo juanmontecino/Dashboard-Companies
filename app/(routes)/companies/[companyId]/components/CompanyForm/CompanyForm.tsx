@@ -42,7 +42,15 @@ export  function CompanyForm( props : CompanyFormProps) {
             await axios.patch(`/api/company/${company?.id}`, values);
             toast.success("Company updated");
             router.refresh();
-        } catch (error) {
+        }
+        catch (error) {
+            try {
+                await axios.patch(`/api/company/${company?.id}`, values);
+                toast.success("Company updated");
+                router.refresh();
+            }catch (error) {
+                toast.error("Error updating company" + error);
+            }
             toast.error("Error updating company" + error);
         }
     }
@@ -83,6 +91,7 @@ export  function CompanyForm( props : CompanyFormProps) {
                                     <SelectItem value="it">Italy</SelectItem>
                                     <SelectItem value="de">Germany</SelectItem>
                                     <SelectItem value="pt">Portugal</SelectItem>
+                                    <SelectItem value="us">United States</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
