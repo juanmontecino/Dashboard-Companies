@@ -1,15 +1,15 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId } = await auth();
     // Chequea si el cuerpo de la solicitud está vacío
     if (req.body === null) {
       return new NextResponse("Empty request body", { status: 400 });
     }
 
-    const { userId } = getAuth(req);
     const data = await req.json();
 
     if (!userId) {

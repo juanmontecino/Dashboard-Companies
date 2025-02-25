@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -7,14 +7,14 @@ export async function POST(
   { params }: { params: { companyId: string } }
 ) {
   try {
-    const { userId } = await getAuth(req);
+    const { userId } = await auth();
     const data = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
 
     }
-    const { companyId } = await params;
+    const { companyId } = params;
 
     const company = await db.company.findUnique({
       where: {

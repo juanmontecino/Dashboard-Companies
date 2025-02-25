@@ -1,14 +1,14 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { companyId: string } }
 ) {
   try {
-    // Obtener el userId usando getAuth
-    const { userId } = await getAuth(req);
+    // Obtener el userId usando 
+    const { userId } = await auth();
 
     // Verificar si el usuario está autenticado
     if (!userId) {
@@ -16,7 +16,7 @@ export async function PATCH(
     }
 
     // Obtener el companyId de los parámetros de la ruta
-    const { companyId } = await params;
+    const { companyId } = params;
 
     // Obtener los valores del cuerpo de la solicitud
     const values = await req.json();
@@ -50,9 +50,9 @@ export async function DELETE(
   { params }: { params: { companyId: string } }
 ) {
   try {
-    const { userId } = await getAuth(req);
+    const { userId } = await auth();
 
-    const { companyId } = await params;
+    const { companyId } = params;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
