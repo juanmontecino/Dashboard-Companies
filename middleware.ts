@@ -5,16 +5,13 @@ const isPublicRoute = createRouteMatcher([
   "/api/uploadthing(.*)",
 ]);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (authPromise, req) => {
   if (!isPublicRoute(req)) {
+    const auth = await authPromise;
     auth.protect(); // Accede directamente a la propiedad protect de auth
   }
 });
 
 export const config = {
-  matcher: [
-    "/((?!.*\\..*|_next).*)",
-    "/",
-    "/(api|trpc)(.*)"
-  ],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
